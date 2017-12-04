@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_put_to_bookmark"
+        android:title="加入收藏夹"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="1" />
+    <item
+        android:id="@+id/action_remove_from_bookmark"
+        android:title="取消收藏"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"/>
+</menu>

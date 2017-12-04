@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">小众软件</string>
+    <string name="homepage">小众软件</string>
+    <string name="error_message">发生错误</string>
+    <string name="default_app_title">缺省标题</string>
+    <string name="default_app_abstract">缺省简介</string>
+    <string name="added_to_bookmark">已收藏</string>
+    <string name="deleted_from_bookmark">已取消收藏</string>
+    <string name="search">搜索</string>
+    <string name="bookmark">收藏夹</string>
+</resources>
