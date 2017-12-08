@@ -1,4 +1,4 @@
-package com.appin;
+package com.appinn.adapters;
 
 //activity for search result page
 //recycler view is used
@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.appin.data.AppInfoContrast;
+import com.appinn.R;
+import com.appinn.data.AppInfoContrast;
 
 import java.util.ArrayList;
 
@@ -20,15 +21,18 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
     private ArrayList<ContentValues> mAppData;
 
     final private AppSearchResultListItemClickListener mOnClickListener;
-
+    final private AppSearchResultListOnBottomReachedListener mOnBottomReachedListener;
     //handle clicking
 
     public interface AppSearchResultListItemClickListener{
         void onClick(ContentValues data);
     }
-
-    public AppPageListAdapter(AppSearchResultListItemClickListener listener){
-        mOnClickListener = listener;
+    public interface AppSearchResultListOnBottomReachedListener{
+        void onBottomReached(int position);
+    }
+    public AppPageListAdapter(AppSearchResultListItemClickListener clickListener, AppSearchResultListOnBottomReachedListener bottomReachedListener){
+        mOnClickListener = clickListener;
+        mOnBottomReachedListener = bottomReachedListener;
     }
 
     @Override
@@ -47,6 +51,10 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
 
         holder.mAppTitleTextView.setText(appTitle);
         holder.mAppAbstractTextView.setText(appAbstract);
+
+        if(position == getItemCount()-1){
+            mOnBottomReachedListener.onBottomReached(position);
+        }
     }
 
     @Override

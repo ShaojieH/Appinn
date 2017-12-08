@@ -1,9 +1,9 @@
-package com.appin.utilities;
+package com.appinn.utilities;
 
 //parse a certain app page
 import android.content.ContentValues;
 
-import com.appin.data.AppInfoContrast;
+import com.appinn.data.AppInfoContrast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

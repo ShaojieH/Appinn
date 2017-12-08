@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.appin.MainActivity">
+    tools:context="com.appinn.ui.MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,14 +23,13 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/error_message"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:textColor="@color/primary_text"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center" />
 
-        <ProgressBar
-            android:id="@+id/pb_loading_indicator"
-            android:layout_height="42dp"
-            android:layout_width="42dp"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_homepagelist"
@@ -38,6 +37,12 @@
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     </FrameLayout>
 
+    <ProgressBar
+        android:id="@+id/pb_main_page_loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center" />
 
-
-</LinearLayout>
+</RelativeLayout>

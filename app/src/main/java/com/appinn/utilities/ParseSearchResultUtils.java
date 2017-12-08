@@ -1,11 +1,11 @@
-package com.appin.utilities;
+package com.appinn.utilities;
 
 // parse search results
 
 import android.content.ContentValues;
 import android.util.Log;
 
-import com.appin.data.AppInfoContrast;
+import com.appinn.data.AppInfoContrast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -59,7 +59,6 @@ public class ParseSearchResultUtils {
                     singleResult.put(AppInfoContrast.AppInfoEntry.COLUMN_APP_TITLE,linkTitle);
                     singleResult.put(AppInfoContrast.AppInfoEntry.COLUMN_APP_URL,linkUrl.trim());
                     singleResult.put(AppInfoContrast.AppInfoEntry.COLUMN_APP_ABSTRACT,linkAbstract);
-
                     parsedResults.add(singleResult);
                 }
             }

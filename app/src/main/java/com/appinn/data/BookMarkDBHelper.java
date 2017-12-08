@@ -1,4 +1,4 @@
-package com.appin.data;
+package com.appinn.data;
 //bookmark database helper
 
 import android.content.Context;
@@ -19,7 +19,7 @@ public class BookMarkDBHelper extends SQLiteOpenHelper{
         final String SQL_CREATE_BOOKMARK_TABLE = "CREATE TABLE " + AppInfoContrast.AppInfoEntry.BOOK_MARK_TABLE_NAME + " (" +
                 AppInfoContrast.AppInfoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 AppInfoContrast.AppInfoEntry.COLUMN_APP_TITLE + " TEXT NOT NULL, " +
-                //AppInfoContrast.AppInfoEntry.COLUMN_APP_ABSTRACT + " TEXT NOT NULL, " +
+                AppInfoContrast.AppInfoEntry.COLUMN_APP_ABSTRACT + " TEXT NOT NULL, " +
                 //AppInfoContrast.AppInfoEntry.COLUMN_APP_TYPE + " TEXT NOT NULL, " +
                 AppInfoContrast.AppInfoEntry.COLUMN_APP_URL + " TEXT NOT NULL, " +
                 AppInfoContrast.AppInfoEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +

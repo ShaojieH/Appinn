@@ -5,7 +5,15 @@
     <string name="default_app_title">缺省标题</string>
     <string name="default_app_abstract">缺省简介</string>
     <string name="added_to_bookmark">已收藏</string>
+    <string name="add_to_bookmark">加入收藏夹</string>
+    <string name="delete_from_bookmark">取消收藏</string>
     <string name="deleted_from_bookmark">已取消收藏</string>
     <string name="search">搜索</string>
     <string name="bookmark">收藏夹</string>
+    <string name="bookmark_is_empty">收藏夹为空</string>
+    <string name="about">关于</string>
+    <string name="about_page_description">本应用是小众软件(www.appinn.com)的第三方安卓浏览器，Java大作业。    “小众软件是一个分享免费、小巧、有趣、实用软件的网站，你可以发现各种各样的软件，有实用的，有趣味的，有奇葩的，我们相信任何存在的软件都是需求的表现，所以不要怀疑你很小众的软件没人用。”</string>
+    <string name="contact_with_me">和我联系</string>
+    <string name="email">tom971018@outlook.com</string>
+    <string name="version">Version 0.1</string>
 </resources>

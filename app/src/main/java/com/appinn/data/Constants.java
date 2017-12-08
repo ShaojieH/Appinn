@@ -1,4 +1,4 @@
-package com.appin.data;
+package com.appinn.data;
 
 /**
  * Created by Tom on 2017/12/4.

@@ -1,17 +1,18 @@
-package com.appin;
+package com.appinn.adapters;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.appin.data.AppInfoContrast;
+import com.appinn.ui.BookMarkActivity;
+import com.appinn.R;
+import com.appinn.data.AppInfoContrast;
 
 
 
@@ -45,21 +46,19 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
 
     @Override
     public void onBindViewHolder(BookMarkViewHolder holder, int position) {
-        // Move the mCursor to the position of the item to be displayed
         if (!mCursor.moveToPosition(position))
-            return; // bail if returned null
+            return;
 
-        // Update the view holder with the information needed to display
         String appTitle = mCursor.getString(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry.COLUMN_APP_TITLE));
-        //String appAbstract = mCursor.getString(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry.COLUMN_APP_ABSTRACT));
         String appUrl = mCursor.getString(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry.COLUMN_APP_URL));
+        String appAbstract = mCursor.getString(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry.COLUMN_APP_ABSTRACT));
         //TODO String appType = mCursor.getString(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry.COLUMN_APP_TYPE));
 
         long id = mCursor.getLong(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry._ID));
 
 
         holder.appTitleTextView.setText(appTitle);
-        holder.appAbstractTextView.setText("简介");
+        holder.appAbstractTextView.setText(appAbstract);
         holder.itemView.setTag(id);
     }
 
@@ -73,11 +72,9 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
 
 
     public void swapCursor(Cursor newCursor) {
-        // Always close the previous mCursor first
         if (mCursor != null) mCursor.close();
         mCursor = newCursor;
         if (newCursor != null) {
-            // Force the RecyclerView to refresh
             this.notifyDataSetChanged();
         }
     }

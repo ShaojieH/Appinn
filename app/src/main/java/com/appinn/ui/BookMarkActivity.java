@@ -1,4 +1,4 @@
-package com.appin;
+package com.appinn.ui;
 
 //activity for bookmark page
 
@@ -6,50 +6,66 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.appin.data.BookMarkDBHelper;
-import com.appin.data.AppInfoContrast;
-import com.appin.utilities.ToastUtils;
+import com.appinn.R;
+import com.appinn.adapters.BookMarkListAdapter;
+import com.appinn.data.BookMarkDBHelper;
+import com.appinn.data.AppInfoContrast;
+import com.appinn.utilities.ToastUtils;
 
 public class BookMarkActivity extends AppCompatActivity implements BookMarkListAdapter.BookMarkListItemClickHandler{
-    private RecyclerView mBookMarkRecylerView;
+    private RecyclerView mBookMarkRecyclerView;
     private BookMarkListAdapter mBookMarkAdapter;
     private SQLiteDatabase mDB;
-
+    private TextView bookmarkEmptyHint;
     private final static String TAG = BookMarkActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        initLayout();
+        initData();
+
         super.onCreate(savedInstanceState);
+    }
+
+    private void initLayout(){
         setContentView(R.layout.activity_book_mark);
         Log.v(TAG,"Bookmarks");
-        setTitle("收藏夹");
+        setTitle(getResources().getString(R.string.bookmark));
 
-        mBookMarkRecylerView = (RecyclerView) findViewById(R.id.rv_bookmarks);
+        ActionBar actionBar = this.getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        bookmarkEmptyHint = (TextView) findViewById(R.id.tv_bookmark_empty_hint);
+        mBookMarkRecyclerView = (RecyclerView) findViewById(R.id.rv_bookmarks);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        mBookMarkRecylerView.setLayoutManager(layoutManager);
-        mBookMarkRecylerView.setHasFixedSize(true);
+        mBookMarkRecyclerView.setLayoutManager(layoutManager);
+        mBookMarkRecyclerView.setHasFixedSize(true);
+    }
 
-
-
+    private void initData(){
         BookMarkDBHelper dbHelper = new BookMarkDBHelper(this);
         mDB = dbHelper.getWritableDatabase();
-
         Cursor cursor = getBookMarkData();
-
         mBookMarkAdapter = new BookMarkListAdapter(this,cursor,this);
-        mBookMarkRecylerView.setAdapter(mBookMarkAdapter);
-
-
+        mBookMarkRecyclerView.setAdapter(mBookMarkAdapter);
 
         showBookmarks();
+        checkIsEmpty();
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -62,12 +78,11 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
                 long id = (long) viewHolder.itemView.getTag();
                 removeFromBookmark(id);
                 mBookMarkAdapter.swapCursor(getBookMarkData());
+                checkIsEmpty();
             }
-        }).attachToRecyclerView(mBookMarkRecylerView);
-
+        }).attachToRecyclerView(mBookMarkRecyclerView);
 
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -75,13 +90,13 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         Cursor cursor = getBookMarkData();
 
         mBookMarkAdapter = new BookMarkListAdapter(this,cursor,this);
-        mBookMarkRecylerView.setAdapter(mBookMarkAdapter);
-
+        mBookMarkRecyclerView.setAdapter(mBookMarkAdapter);
+        checkIsEmpty();
     }
 
 
     private void showBookmarks() {
-        mBookMarkRecylerView.setVisibility(View.VISIBLE);
+        mBookMarkRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private Cursor getBookMarkData(){
@@ -111,5 +126,31 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         String[] whereArgs={Long.toString(id)};
         mDB.delete(AppInfoContrast.AppInfoEntry.BOOK_MARK_TABLE_NAME, whereClause,whereArgs);
         ToastUtils.unBookMarked(getApplicationContext());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void checkIsEmpty(){
+        if(mBookMarkAdapter.getItemCount()==0){
+            bookmarkEmptyHint.setVisibility(View.VISIBLE);
+            Log.v(TAG,"empty");
+        }else{
+            Log.v(TAG,"not empty");
+            bookmarkEmptyHint.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(mDB!=null)
+            mDB.close();
+        super.onDestroy();
     }
 }

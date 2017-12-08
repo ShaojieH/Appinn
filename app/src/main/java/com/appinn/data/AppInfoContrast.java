@@ -1,4 +1,4 @@
-package com.appin.data;
+package com.appinn.data;
 // database contract for convenience
 import android.provider.BaseColumns;
 

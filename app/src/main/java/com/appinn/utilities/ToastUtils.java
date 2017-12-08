@@ -1,10 +1,10 @@
-package com.appin.utilities;
+package com.appinn.utilities;
 
 import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.appin.R;
+import com.appinn.R;
 
 
 //globol toasts function are stored here

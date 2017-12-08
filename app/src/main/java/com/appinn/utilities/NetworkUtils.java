@@ -1,4 +1,4 @@
-package com.appin.utilities;
+package com.appinn.utilities;
 
 //network utilities
 
@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import static com.appin.data.Constants.*;
+import static com.appinn.data.Constants.*;
 
 public class NetworkUtils {
 
