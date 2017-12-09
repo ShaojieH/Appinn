@@ -13,16 +13,26 @@ import com.appinn.data.Constants;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
+/**
+ * 关于页面Activity
+ */
 public class AboutActivity extends AppCompatActivity {
 
     private final String TAG = AboutActivity.class.getSimpleName();
 
+    /**
+     * 初始化
+     * @param savedInstanceState    已保存的信息
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLayout();
     }
 
+    /**
+     * 初始化布局
+     */
     private void initLayout(){
         setTitle(getResources().getString(R.string.about));
 
@@ -43,12 +53,20 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(aboutPage);
     }
 
+    /**
+     * 重载返回键行为
+     */
     @Override
     public void onBackPressed() {
         Log.v(TAG,"Back button pressed");
         finish();
     }
 
+    /**
+     * 重载菜单选项
+     * @param item  菜单
+     * @return  是否处理成功
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){

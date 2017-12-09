@@ -14,10 +14,18 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-
+/**
+ * 解析搜索结果页面相关
+ */
 public class ParseSearchResultUtils {
 
     final static private String TAG = ParseHomePageUtils.class.getSimpleName();
+
+    /**
+     * 判断url是否为有效的应用页面
+     * @param appUrl    url
+     * @return  是否有效
+     */
     public static boolean isAppUrlValid(String appUrl){
         int count = appUrl.length()-appUrl.replace("/","").length();
         if(appUrl.contains("?")||
@@ -35,7 +43,13 @@ public class ParseSearchResultUtils {
         return false;
     }
 
-    //iterate through result html and return all valid app url
+
+
+    /**
+     * 返回搜索结果中所有有效的链接
+     * @param html  html
+     * @return 所有有效链接的url,题目，简介
+     */
     public static ArrayList<ContentValues> parseSearchResult(String html){
         try{
             Log.v(TAG,"Parsing search result");

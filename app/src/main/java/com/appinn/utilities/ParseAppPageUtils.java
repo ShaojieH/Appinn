@@ -1,6 +1,5 @@
 package com.appinn.utilities;
 
-//parse a certain app page
 import android.content.ContentValues;
 
 import com.appinn.data.AppInfoContrast;
@@ -12,13 +11,28 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * 解析每个应用页面相关
+ */
 public class ParseAppPageUtils {
+
+    /**
+     *将url转为amp版
+     * @param url   原始url
+     * @return  便于解析的url(实际为手机访问用界面)
+     */
     public static String makeUrl(String url){
         if(!url.endsWith("amp/")){
             url = url + "amp/";
         }
         return url;
     }
+
+    /**
+     *解析app页面
+     * @param url   访问的页面
+     * @return  app页面解析后的结果, contentValues
+     */
     public static ContentValues parseAppUrl(String url){
         url = makeUrl(url);
         try {
@@ -36,6 +50,11 @@ public class ParseAppPageUtils {
 
     //parse the response with jsoup and delete parts that won't be needed
 
+    /**
+     *用jsoup解析html
+     * @param response  返回结果
+     * @return  应用信息
+     */
     private static ContentValues parseResponse(String response){
 
         Document doc = Jsoup.parse(response);

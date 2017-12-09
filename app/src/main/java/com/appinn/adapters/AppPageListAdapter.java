@@ -1,7 +1,6 @@
 package com.appinn.adapters;
 
-//activity for search result page
-//recycler view is used
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,9 @@ import com.appinn.data.AppInfoContrast;
 import java.util.ArrayList;
 
 
+/**
+ * 应用列表adapter
+ */
 public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.AppViewHolder>{
 
     private ArrayList<ContentValues> mAppData;
@@ -24,17 +26,36 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
     final private AppSearchResultListOnBottomReachedListener mOnBottomReachedListener;
     //handle clicking
 
+    /**
+     * 点击事件接口
+     */
     public interface AppSearchResultListItemClickListener{
         void onClick(ContentValues data);
     }
+
+    /**
+     * 滚动到底部接口
+     */
     public interface AppSearchResultListOnBottomReachedListener{
         void onBottomReached(int position);
     }
+
+    /**
+     * 构造函数
+     * @param clickListener 接口实现者
+     * @param bottomReachedListener 接口实现者
+     */
     public AppPageListAdapter(AppSearchResultListItemClickListener clickListener, AppSearchResultListOnBottomReachedListener bottomReachedListener){
         mOnClickListener = clickListener;
         mOnBottomReachedListener = bottomReachedListener;
     }
 
+    /**
+     * 创建 view holder
+     * @param parent    parent view
+     * @param viewType  类型
+     * @return  app view holder
+     */
     @Override
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -44,6 +65,11 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
         return new AppViewHolder(view);
     }
 
+    /**
+     * 绑定 view holder
+     * @param holder    view holder
+     * @param position  位置
+     */
     @Override
     public void onBindViewHolder(AppViewHolder holder, int position) {
         String appTitle = mAppData.get(position).getAsString(AppInfoContrast.AppInfoEntry.COLUMN_APP_TITLE);
@@ -57,6 +83,10 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
         }
     }
 
+    /**
+     * 获取数据数量
+     * @return  数据数量
+     */
     @Override
     public int getItemCount() {
         if(mAppData==null){
@@ -67,13 +97,19 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
         }
     }
 
+    /**
+     * 设置数据
+     * @param appData
+     */
     public void setAppData(ArrayList<ContentValues> appData){
         mAppData = appData;
         notifyDataSetChanged();
     }
 
 
-
+    /**
+     * 内部类，view holder
+     */
     public class AppViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mAppTitleTextView;
         private TextView mAppAbstractTextView;

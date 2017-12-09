@@ -20,7 +20,6 @@ public class NetworkUtils {
 
     private final static String PARAM_QUERY = "q";
 
-
     private final static String UNKNOWNS_QUERY = "s";
     private final static String UNKNOWNS = "5999676002387380177";   //don't know what this is
 
@@ -31,7 +30,12 @@ public class NetworkUtils {
 
     private final static String TAG = NetworkUtils.class.getSimpleName();
 
-    // url builder
+    /**
+     * url builder
+     * @param SearchQuery   要搜索的url
+     * @param searchResultPage  要搜索的页数
+     * @return  进行搜索要访问的url
+     */
     public static URL buildSearchUrl(String SearchQuery, String searchResultPage) {
         Uri builtUri = Uri.parse(SEARCH_BASE_URL).buildUpon()
                 .appendQueryParameter(PARAM_QUERY, SearchQuery)
@@ -50,21 +54,23 @@ public class NetworkUtils {
         return url;
     }
 
-    //read raw response from http url
+    /**
+     *网络访问
+     * @param url   要访问的url
+     * @return  访问url的响应值
+     * @throws IOException
+     */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         Log.v(TAG,"Starting getting response from" + url.toString());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded; charset=utf-8");    //set charset header
             InputStream in = urlConnection.getInputStream();
-            //convert input stream to string
             Scanner scanner = new Scanner(in);
-            // "\\A", actually "\A", is a regex expression which matches the beginning of the input
             scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
             if (hasInput) {
-                //scan all the way down
                 return scanner.next();
             } else {
                 return null;

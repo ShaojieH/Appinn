@@ -1,7 +1,10 @@
 package com.appinn.data;
-// database contract for convenience
+
 import android.provider.BaseColumns;
 
+/**
+ * 数据库所用常量
+ */
 public class AppInfoContrast {
 
     public static final class AppInfoEntry implements BaseColumns {

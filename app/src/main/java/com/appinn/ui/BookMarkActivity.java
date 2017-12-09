@@ -23,6 +23,9 @@ import com.appinn.data.BookMarkDBHelper;
 import com.appinn.data.AppInfoContrast;
 import com.appinn.utilities.ToastUtils;
 
+/**
+ * 收藏夹Activity
+ */
 public class BookMarkActivity extends AppCompatActivity implements BookMarkListAdapter.BookMarkListItemClickHandler{
     private RecyclerView mBookMarkRecyclerView;
     private BookMarkListAdapter mBookMarkAdapter;
@@ -30,15 +33,21 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
     private TextView bookmarkEmptyHint;
     private final static String TAG = BookMarkActivity.class.getSimpleName();
 
+    /**
+     * 初始化
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         initLayout();
         initData();
-
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * 初始化布局
+     */
     private void initLayout(){
         setContentView(R.layout.activity_book_mark);
         Log.v(TAG,"Bookmarks");
@@ -57,6 +66,9 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         mBookMarkRecyclerView.setHasFixedSize(true);
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData(){
         BookMarkDBHelper dbHelper = new BookMarkDBHelper(this);
         mDB = dbHelper.getWritableDatabase();
@@ -83,22 +95,31 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         }).attachToRecyclerView(mBookMarkRecyclerView);
 
     }
+
+    /**
+     * 重载从其他Activity返回到此页面时的行为
+     */
     @Override
     protected void onResume() {
         super.onResume();
 
         Cursor cursor = getBookMarkData();
-
         mBookMarkAdapter = new BookMarkListAdapter(this,cursor,this);
         mBookMarkRecyclerView.setAdapter(mBookMarkAdapter);
         checkIsEmpty();
     }
 
-
+    /**
+     * 展示收藏夹
+     */
     private void showBookmarks() {
         mBookMarkRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 获取收藏夹数据
+     * @return  用于访问数据库的cursor
+     */
     private Cursor getBookMarkData(){
         Log.v(TAG,"Getting bookmark info");
         return mDB.query(
@@ -111,7 +132,11 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
                 AppInfoContrast.AppInfoEntry.COLUMN_TIMESTAMP
         );
     }
-    //implement clicking in bookmark list
+
+    /**
+     * 实现recycler view adapter 的点击事件接口
+     * @param data  点击到的数据
+     */
     @Override
     public void onClick(ContentValues data) {
         Log.v(TAG,"BookMark clicked");
@@ -121,6 +146,10 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         startActivity(intent);
     }
 
+    /**
+     * 从收藏夹中删除
+     * @param id    序号
+     */
     private void removeFromBookmark(long id){
         String whereClause = AppInfoContrast.AppInfoEntry._ID+"=?";
         String[] whereArgs={Long.toString(id)};
@@ -128,6 +157,11 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         ToastUtils.unBookMarked(getApplicationContext());
     }
 
+    /**
+     * 重载菜单选项被选中时的行为
+     * @param item  选项
+     * @return  是否成功处理
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -137,6 +171,9 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 检查收藏夹是否为空
+     */
     private void checkIsEmpty(){
         if(mBookMarkAdapter.getItemCount()==0){
             bookmarkEmptyHint.setVisibility(View.VISIBLE);
@@ -147,6 +184,9 @@ public class BookMarkActivity extends AppCompatActivity implements BookMarkListA
         }
     }
 
+    /**
+     * 重载结束时的行为
+     */
     @Override
     protected void onDestroy() {
         if(mDB!=null)

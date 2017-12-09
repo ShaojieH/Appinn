@@ -5,14 +5,26 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * 数据库类
+ */
 public class BookMarkDBHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "appBookMarks.db";
 
     private static final int DATABASE_VERSION = 1;
 
+    /**
+     * 构造函数
+     * @param context   context
+     */
     public BookMarkDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    /**
+     * 初始化数据库
+     * @param sqLiteDatabase    数据库
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -28,6 +40,12 @@ public class BookMarkDBHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(SQL_CREATE_BOOKMARK_TABLE);
     }
 
+    /**
+     * 更新时的操作
+     * @param sqLiteDatabase    数据库
+     * @param i 版本号?
+     * @param i1    ??
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         /*

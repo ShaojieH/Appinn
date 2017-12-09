@@ -1,7 +1,5 @@
 package com.appinn.ui;
 
-//activity for the main page
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -33,6 +31,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * 主页面activity
+ */
 public class MainActivity extends AppCompatActivity implements AppPageListAdapter.AppSearchResultListItemClickListener,
         AppPageListAdapter.AppSearchResultListOnBottomReachedListener{
 
@@ -54,18 +55,23 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
     private ArrayList<ContentValues> listOfSearchResults = new ArrayList<>();
     private ArrayList<ContentValues> listOfHomePageResults = new ArrayList<>();
 
-
+    /**
+     * 初始化函数
+     * @param savedInstanceState    已保存的信息
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLayout();
         initData();
         getHomePage(1);
-
     }
 
     private int currentAdapterState; // 0 : homepage, 1 : searchResult;
 
+    /**
+     * 初始化界面
+     */
     private void initLayout(){
         setContentView(R.layout.activity_main);
 
@@ -94,12 +100,20 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         setTitle(getResources().getString(R.string.homepage));
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData(){
         currentSearchResultPage = 0;
         currentHomepagePage = 1;
         currentAdapterState = 0;
 
     }
+
+    /**
+     *实现recycler view adapter的接口方法
+     * @param data  recycler view 中的单个数据
+     */
     @Override
     public void onClick(ContentValues data) {
         Intent intent = new Intent(this, AppPageActivity.class);
@@ -110,6 +124,10 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         startActivity(intent);
     }
 
+    /**
+     * 实现recycler view adapter滚动到最下面开始刷新的接口方法
+     * @param position
+     */
     @Override
     public void onBottomReached(int position) {
         if(currentAdapterState==1){
@@ -119,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         }
     }
 
+    /**
+     * 获取主页信息
+     * @param page  页数
+     */
     private void getHomePage(int page){
         String homepage = Constants.HOME_PAGE + "/page/" + Integer.toString(page) + "/";
         URL homepageURL = null;
@@ -131,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         new getHomepageTask().execute(homepageURL);
     }
 
+    /**
+     * 进行搜索请求
+     * @param page  搜索页面展示页数
+     */
     private void makeSearchQuery(int page){
         String query = mSearchView.getQuery().toString();
         URL searchUrl = NetworkUtils.buildSearchUrl(query,Integer.toString(page));
@@ -138,16 +164,25 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         new searchQueryTask().execute(searchUrl);
     }
 
+    /**
+     * 打开书签
+     */
     private void openBookmark(){
         Intent intent = new Intent(this,BookMarkActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * 打开关于页面
+     */
     private void openAboutPage(){
         Intent intent = new Intent(this,AboutActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * 展示搜索结果
+     */
     private void showSearchResultsView() {
         Log.v(TAG,"Showing results");
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
@@ -155,12 +190,19 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         mHomepageListRecyclerView.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * 展示错误信息
+     */
     private void showErrorMessage() {
         Log.v(TAG,"Showing error message");
         mSearchResultRecyclerView.setVisibility(View.INVISIBLE);
         mHomepageListRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * 隐藏错误信息
+     */
     private void hideErrorMessage(){
         Log.v(TAG,"Hiding error message");
         mSearchResultRecyclerView.setVisibility(View.VISIBLE);
@@ -170,6 +212,10 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
 
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
+
+    /**
+     * 搜索的异步任务
+     */
     private class searchQueryTask extends AsyncTask<URL, Void, String>{
         @Override
         protected void onPreExecute() {
@@ -208,6 +254,9 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
 
     }
 
+    /**
+     * 获取主页的异步任务
+     */
     public class getHomepageTask extends AsyncTask<URL, Void, String>{
 
         @Override
@@ -243,6 +292,11 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         }
     }
 
+    /**
+     * 初始化菜单
+     * @param menu  菜单
+     * @return  是否成功
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
@@ -265,6 +319,11 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         return true;
     }
 
+    /**
+     * 菜单中选项被选中后的行为
+     * @param item  菜单选项
+     * @return  是否处理成功
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -281,6 +340,9 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         }
     }
 
+    /**
+     * 进度条渐入
+     */
     private void progressbarFadeIn(){
         Animation fadeInAnimation = new AlphaAnimation(0.f, 1.f);
         fadeInAnimation.setDuration(500);
@@ -304,6 +366,9 @@ public class MainActivity extends AppCompatActivity implements AppPageListAdapte
         mLoadingIndicator.startAnimation(fadeInAnimation);
     }
 
+    /**
+     * 进度条渐出
+     */
     private void progressbarFadeOut(){
         Log.v(TAG,"progress bar fading out");
 

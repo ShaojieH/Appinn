@@ -29,6 +29,9 @@ import com.appinn.utilities.ParseAppPageUtils;
 import com.appinn.utilities.ParseSearchResultUtils;
 import com.appinn.utilities.ToastUtils;
 
+/**
+ * 应用页面activity
+ */
 public class AppPageActivity extends AppCompatActivity {
 
     private WebView mAppWebView;
@@ -47,6 +50,10 @@ public class AppPageActivity extends AppCompatActivity {
 
     private final static String TAG = AppPageActivity.class.getSimpleName();
 
+    /**
+     * 初始化
+     * @param savedInstanceState    已保存的信息
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(TAG,"New app page creating");
@@ -58,6 +65,9 @@ public class AppPageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 初始化布局
+     */
     private void initLayout(){
         setContentView(R.layout.activity_app_page);
         ActionBar actionBar = this.getSupportActionBar();
@@ -96,6 +106,9 @@ public class AppPageActivity extends AppCompatActivity {
         mAppWebView.getSettings().setLoadsImagesAutomatically(true);
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData(){
         Intent intentThatStartedThisActivity = getIntent();
         if(intentThatStartedThisActivity != null){
@@ -114,10 +127,17 @@ public class AppPageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 开始载入页面
+     */
     private void startLoadingPage(){
         if(!TextUtils.isEmpty(mAppUrl))
             new parseAppPage().execute(mAppUrl);
     }
+
+    /**
+     * 解析页面的异步任务
+     */
     public class parseAppPage extends AsyncTask<String,Void,ContentValues>{
 
         @Override
@@ -145,6 +165,11 @@ public class AppPageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 初始化菜单
+     * @param menu  菜单
+     * @return  是否成功
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.apppage,menu);
@@ -153,6 +178,11 @@ public class AppPageActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * 菜单中选项被选中后的行为
+     * @param item  菜单选项
+     * @return  是否处理成功
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -169,6 +199,9 @@ public class AppPageActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 刷新书签情况
+     */
     private void refreshBookMarkButtons(){
         MenuItem addToBookmark = mMenu.findItem(R.id.action_put_to_bookmark);
         MenuItem removeFromBookmark = mMenu.findItem(R.id.action_remove_from_bookmark);
@@ -181,6 +214,9 @@ public class AppPageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 加入到书签
+     */
     private void putToBookMark(){
         BookMarkDBHelper dbHelper = new BookMarkDBHelper(this);
         mDb = dbHelper.getWritableDatabase();
@@ -193,6 +229,10 @@ public class AppPageActivity extends AppCompatActivity {
         refreshBookMarkButtons();
         //return returnVal;
     }
+
+    /**
+     * 从书签中删除
+     */
     private void removeFromBookMark(){
         ToastUtils.unBookMarked(this);
         String whereClause = AppInfoContrast.AppInfoEntry.COLUMN_APP_URL+"=?";
@@ -202,6 +242,10 @@ public class AppPageActivity extends AppCompatActivity {
         //return returnVal;
     }
 
+    /**
+     * 检查是否在书签中
+     * @return  检查结果
+     */
     private boolean checkIfBookmarked(){
         BookMarkDBHelper dbHelper = new BookMarkDBHelper(this);
         mDb = dbHelper.getWritableDatabase();
@@ -215,12 +259,18 @@ public class AppPageActivity extends AppCompatActivity {
         return position;
     }
 
+    /**
+     * 重载返回键
+     */
     @Override
     public void onBackPressed() {
         Log.v(TAG,"Back button pressed");
         finish();
     }
 
+    /**
+     * 进度条渐入
+     */
     private void progressbarFadeIn(){
         Animation fadeInAnimation = new AlphaAnimation(0.f, 1.f);
         fadeInAnimation.setDuration(500);
@@ -244,6 +294,9 @@ public class AppPageActivity extends AppCompatActivity {
         mLoadingIndicator.startAnimation(fadeInAnimation);
     }
 
+    /**
+     * 进度条渐出
+     */
     private void progressbarFadeOut(){
         Log.v(TAG,"progress bar fading out");
 
@@ -268,6 +321,9 @@ public class AppPageActivity extends AppCompatActivity {
         mLoadingIndicator.startAnimation(fadeOutAnimation);
     }
 
+    /**
+     * webview 渐入
+     */
     private void webViewFadeIn(){
         Log.v(TAG,"web view fading out");
         Animation fadeInAnimation = new AlphaAnimation(0.f, 1.f);
@@ -292,6 +348,9 @@ public class AppPageActivity extends AppCompatActivity {
         mAppWebView.startAnimation(fadeInAnimation);
     }
 
+    /**
+     * 重载结束时的行为
+     */
     @Override
     protected void onDestroy() {
         if(mDb!=null)

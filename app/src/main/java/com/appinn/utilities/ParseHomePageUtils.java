@@ -12,11 +12,18 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-
+/**
+ * 解析主页相关
+ */
 public class ParseHomePageUtils {
 
     private static final String TAG = ParseHomePageUtils.class.getSimpleName();
 
+    /**
+     * 解析主页
+     * @param html  响应html
+     * @return  返回首页上的应用信息
+     */
     public static ArrayList<ContentValues> parseHomePage(String html){
         try{
             ArrayList<ContentValues> parsedResults = new ArrayList<>();

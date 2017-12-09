@@ -15,7 +15,9 @@ import com.appinn.R;
 import com.appinn.data.AppInfoContrast;
 
 
-
+/**
+ * 收藏夹列表adapter
+ */
 public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapter.BookMarkViewHolder> {
 
     private Cursor mCursor;
@@ -25,17 +27,31 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
 
     final private static String TAG = BookMarkActivity.class.getSimpleName();
 
-    //handle clicking
+    /**
+     * 点击事件接口
+     */
     public interface BookMarkListItemClickHandler{
         void onClick(ContentValues data);
     }
 
+    /**
+     * 构造函数
+     * @param context   context
+     * @param cursor    cursor
+     * @param listener  监听器
+     */
     public BookMarkListAdapter(Context context, Cursor cursor,BookMarkListItemClickHandler listener) {
         this.mContext = context;
         this.mCursor = cursor;
         mOnClickListener = listener;
     }
 
+    /**
+     * view holder
+     * @param parent    parent view
+     * @param viewType  类型
+     * @return  view holder
+     */
     @Override
     public BookMarkViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -44,6 +60,11 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
         return new BookMarkViewHolder(view);
     }
 
+    /**
+     * 绑定 view holder
+     * @param holder view holder
+     * @param position 位置
+     */
     @Override
     public void onBindViewHolder(BookMarkViewHolder holder, int position) {
         if (!mCursor.moveToPosition(position))
@@ -62,15 +83,19 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
         holder.itemView.setTag(id);
     }
 
-
+    /**
+     * 获取数据总量
+     * @return  总量
+     */
     @Override
     public int getItemCount() {
-
-
         return mCursor.getCount();
     }
 
-
+    /**
+     * 改变数据时的行为
+     * @param newCursor 新的cursor
+     */
     public void swapCursor(Cursor newCursor) {
         if (mCursor != null) mCursor.close();
         mCursor = newCursor;
@@ -79,12 +104,12 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
         }
     }
 
-
+    /**
+     * 内部类， view holder
+     */
     class BookMarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-
         TextView appTitleTextView;
-
         TextView appAbstractTextView;
 
         public BookMarkViewHolder(View itemView) {
@@ -102,8 +127,6 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
             if(mCursor.moveToPosition(adapterPosition)){
                 DatabaseUtils.cursorRowToContentValues(mCursor,appData);
             }
-
-
             mOnClickListener.onClick(appData);
         }
     }
