@@ -77,7 +77,6 @@ public class BookMarkListAdapter extends RecyclerView.Adapter<BookMarkListAdapte
 
         long id = mCursor.getLong(mCursor.getColumnIndex(AppInfoContrast.AppInfoEntry._ID));
 
-
         holder.appTitleTextView.setText(appTitle);
         holder.appAbstractTextView.setText(appAbstract);
         holder.itemView.setTag(id);

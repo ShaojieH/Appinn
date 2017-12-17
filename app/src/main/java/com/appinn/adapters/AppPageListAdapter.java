@@ -24,7 +24,6 @@ public class AppPageListAdapter extends RecyclerView.Adapter<AppPageListAdapter.
 
     final private AppSearchResultListItemClickListener mOnClickListener;
     final private AppSearchResultListOnBottomReachedListener mOnBottomReachedListener;
-    //handle clicking
 
     /**
      * 点击事件接口
